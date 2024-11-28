@@ -1,18 +1,39 @@
 <template>
   <div class="loginPageContainer">
     <LoginForm @submit="onSubmit" />
+    <div class="absoluteTopRight absolute top-0 right-0 p-4">
+      <Spinner v-if="loading" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import LoginForm from '@/components/auth/LoginForm.vue'
+import Spinner from '@/components/loading/Spinner.vue'
+import router from '@/router'
+import { useAuthStore } from '@/stores/auth'
 import { logIn } from '@/utilities/auth'
+import { ref } from 'vue'
 
-const onSubmit = (v: Record<string, string>) => logIn(v.email, v.password)
+const authStore = useAuthStore()
+
+const handleLoginSuccess = (v: any) => {
+  console.log('handleLoginSuccess', v)
+  authStore.setUser(v.data)
+  router.push('/dashboard')
+}
+
+const loading = ref(false)
+const onSubmit = (v: Record<string, string>) => {
+  loading.value = true
+  logIn(v.email, v.password)
+    .then((res) => handleLoginSuccess(res))
+    .catch(() => router.push('/login'))
+    .finally(() => loading.value = false)
+}
 </script>
 
 <style scoped lang="css">
-/* ... */
 .textInput {
   margin: 1rem 0;
   display: block;
