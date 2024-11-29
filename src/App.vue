@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import { markRaw, ref } from 'vue'
 
-const layout = ref(markRaw(DefaultLayout))
+const layout = computed(() => DefaultLayout)
+
 const title = import.meta.env.VITE_APP_NAME
 document.title = title
 </script>

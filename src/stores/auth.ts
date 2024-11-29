@@ -5,7 +5,7 @@ import type { User } from '@/types/auth'
 export const useAuthStore = defineStore('auth', () => {
   const user: Ref<User | null> = ref(null)
 
-  const setUser = (v: User) => (user.value = v)
+  const setUser = (v: User | null) => (user.value = v)
 
-  return { user, setUser }
+  return { setUser, user }
 })

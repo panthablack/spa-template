@@ -1,15 +1,14 @@
 <template>
   <div class="loginPageContainer">
-    <LoginForm @submit="onSubmit" />
-    <div class="absoluteTopRight absolute top-0 right-0 p-4">
-      <Spinner v-if="loading" />
-    </div>
+    <LoginForm
+      @submit="onSubmit"
+      :loading="loading"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import LoginForm from '@/components/auth/LoginForm.vue'
-import Spinner from '@/components/loading/Spinner.vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { logIn } from '@/utilities/auth'

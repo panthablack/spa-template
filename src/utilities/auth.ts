@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { api } from '@/utilities/api'
+import { useAuthStore } from '@/stores/auth'
 
 export const apiLogIn = (email: string, password: string) =>
   new Promise((resolve, reject) => {
@@ -51,6 +52,21 @@ export const logIn = async (email: string, password: string) =>
               .catch(e => reject(e))
           })
           .catch(e => reject(e))
+      })
+      .catch(e => reject(e))
+  })
+
+export const logOut = async () =>
+  new Promise((resolve, reject) => {
+    console.debug('Logging Out')
+    axios
+      .post(`${import.meta.env.VITE_API_ROOT_URL}/logout`)
+      .then(res => {
+        if (res.status !== 204) reject(new Error(`Unexpected logout status: ${res.status}`))
+        const authStore = useAuthStore()
+        authStore.setUser(null)
+        console.debug('Successfully logged out of the API: ', res)
+        resolve(res)
       })
       .catch(e => reject(e))
   })

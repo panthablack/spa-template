@@ -6,4 +6,9 @@ export const authRoutes: RouteRecordRaw[] = [
     name: 'dashboard',
     component: () => import('@/views/DashboardView.vue'),
   },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: () => import('@/views/auth/LogoutView.vue'),
+  },
 ].map((r: RouteRecordRaw) => ({ ...r, meta: { ...(r.meta || {}), guard: 'auth' } }))
